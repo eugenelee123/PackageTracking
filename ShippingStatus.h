@@ -24,7 +24,9 @@ public:
     time_t m_getTime();
     
 private: 
-
+    string _location;
+    string _status;
+    time_t _time;
 };
 
 
