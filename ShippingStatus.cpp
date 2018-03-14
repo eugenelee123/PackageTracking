@@ -11,7 +11,7 @@
 ShippingStatus::ShippingStatus() {
   _location = " ";
   _status = " ";
-  _time = " ";
+  _time = 0;
 }
 
 ShippingStatus::ShippingStatus(const string& status, const string& location, const time_t& timeUpdated) {
