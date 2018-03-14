@@ -9,21 +9,25 @@
 #include "ShippingStatus.h"
 
 ShippingStatus::ShippingStatus() {
-  //to be completed
+  _location = " ";
+  _status = " ";
+  _time = " ";
 }
 
 ShippingStatus::ShippingStatus(const string& status, const string& location, const time_t& timeUpdated) {
-  //to be completed
+  _location= location;
+  _status= status;
+  _time=timeUpdated;
 }
 
 string ShippingStatus::m_getStatus(){
-  //to be completed
+  return _status;
 }
 
 string ShippingStatus::m_getLocation(){
-   //to be completed
+   return _location;
 }
 
 time_t ShippingStatus::m_getTime() {
-    //to be completed
+    return _time;
 }
