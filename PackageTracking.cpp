@@ -10,19 +10,21 @@
 #include <iostream>
 #include <string>
 
-PackageTracking::PackageTracking(const string& strnum) 
+PackageTracking::PackageTracking(const string& strnum)//Constructor that takes in the package's tracking number and then sends it to
+	                                             //m_readTrackingFile so it can be read.
 {
 	/*string filename = strnum + ".txt";
 	m_readTrackingFile(filename);*/
 }
 
-// add a new update
+// adds a new update by creating an obeject s of ShippingStatus and pushing it the front of the list. Everytime this function is called
+//it points temp to the top of the stack.
 void PackageTracking::m_addUpdate(const string& status, const string& location, const time_t& timeUpdated) 
 {
 	ShippingStatus s(status, location, timeUpdated);
 	mylist.push_front(s); 
 	temp = mylist.begin();
-	n++;
+	n++;//variable to keep track of the number of updates.
 }
 
 bool PackageTracking::m_moveBackward()//move iterator one step earlier in time
@@ -76,7 +78,7 @@ string PackageTracking::m_getLocation()//return the location of the current upda
 
 time_t PackageTracking::m_getTime()//return the time of the current update
 {
-	if (mylist.empty()) throw std::length_error("List is empty!");		//Checks if list is empty, if not returnt time
+	if (mylist.empty()) throw std::length_error("List is empty!");		//Checks if list is empty, if not return time
 	return temp->_time;
 }
 
@@ -164,24 +166,27 @@ bool PackageTracking::m_readTrackingFile(string fileName) //Reads from a text fi
 	time_t time;
 	if (myfile.is_open())
 	{
-		while (getline(myfile, line))
+		while (getline(myfile, line))//parses a line in the text file and puts it into the variable of type string called line
 		{
-			if (line == "new")
+			if (line == "new")//checks if the string line is equal to new if so it will enter the if statement
 			{
-				getline(myfile, status, ';');
-				getline(myfile, location, ';');
-				myfile >> time;
-				m_addUpdate(status, location, time);
+				getline(myfile, status, ';');//checks the line after "new" and takes that line puts it into a string called status
+							     //and once it hits the semicolon it will stop.
+				getline(myfile, location, ';');//after the semicolon it will put all of the remaining line into the string called
+							       //location until the next semicolon
+				myfile >> time;//after the semicolon it will put the remaining of the line of text in to the time_t variable called time
+					       //and will go to the next line once the new line char is read.
+				m_addUpdate(status, location, time);//updates the linked list with status, location, and time.
 			}
 
 			else if (line == "forward")
 			{
-				m_moveForward();
+				m_moveForward();//if line is equal to "forward" this function will be called to move the iterator forward
 			}
 
 			else if (line == "back")
 			{
-				m_moveBackward();
+				m_moveBackward();//if line is equal to "back" this function will be called to move the iterator back
 			}
 
 		}
