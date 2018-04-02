@@ -47,9 +47,9 @@ public:
 	    
     
 private:
-list<ShippingStatus> mylist;
-list<ShippingStatus>::iterator temp;
-int n = 0;
+list<ShippingStatus> mylist; 		//Creates list of ShippingStatus objects
+list<ShippingStatus>::iterator temp;	//Creates iterator for index maneuverability 
+int n = 0;				//Counts number of updates
 
 };
 
