@@ -8,12 +8,14 @@
 
 #include "ShippingStatus.h"
 
+//Default constructor initializes values to empty strings and time 0
 ShippingStatus::ShippingStatus() {
   _location = " ";
   _status = " ";
   _time = 0;
 }
 
+//Sets ShippingStatus private variables
 ShippingStatus::ShippingStatus(const string& status, const string& location, const time_t& timeUpdated) {
   _location= location;
   _status= status;
