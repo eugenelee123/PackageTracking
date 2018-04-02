@@ -16,7 +16,7 @@ using namespace std;
 
 class ShippingStatus {
 public:
-    friend class Packagetracking;
+    friend class PackageTracking;
     ShippingStatus();
     ShippingStatus(const string& status, const string& location, const time_t& timeUpdated );
 
