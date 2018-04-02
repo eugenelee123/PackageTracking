@@ -47,6 +47,9 @@ public:
 	    
     
 private:
+list<ShippingStatus> mylist;
+list<ShippingStatus>::iterator temp;
+int n = 0;
 
 };
 
