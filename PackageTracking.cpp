@@ -10,7 +10,8 @@
 #include <iostream>
 #include <string>
 
-PackageTracking::PackageTracking(const string& strnum) {
+PackageTracking::PackageTracking(const string& strnum) 
+{
 	
 }
 
@@ -19,20 +20,28 @@ void PackageTracking::m_addUpdate(const string& status, const string& location, 
 {
 	ShippingStatus s(status, location, timeUpdated);
 	mylist.push_front(s); 
+	temp = mylist.begin();
 	n++;
 }
 
 bool PackageTracking::m_moveBackward()//move iterator one step earlier in time
 {
 	//to be completed
-	if (mylist.empty() || temp == mylist.begin())
+	if (mylist.empty())
 	{
+		throw std::length_error("List is empty!");
+		return false;
+	}
+
+	else if (temp == mylist.end())
+	{
+		throw std::invalid_argument("You are at the earliest shipping update!");
 		return false;
 	}
 
 	else
 	{
-		temp--;
+		temp++;
 		return true;
 	}
 	
@@ -42,11 +51,20 @@ bool PackageTracking::m_moveBackward()//move iterator one step earlier in time
 bool PackageTracking::m_moveForward()//move iterator one step forward in time
 {
 	//to be completed
-	if (mylist.empty() || temp == mylist.end())
+	if (temp == mylist.begin())
+	{
+		throw std::invalid_argument("You are at the most recent shipping update!");
 		return false;
+	}
+
+	else if (mylist.empty())
+	{
+		throw std::length_error("List is empty!");
+		return false;
+	}
 	else
 	{
-		temp++;
+		temp--;
 		return true;
 	}
 }
@@ -54,18 +72,21 @@ bool PackageTracking::m_moveForward()//move iterator one step forward in time
 string PackageTracking::m_getLocation()//return the location of the current update
 {
 	//to be completed
+	if (mylist.empty()) throw std::length_error("List is empty!");
 	return temp->_location;
 }
 
 time_t PackageTracking::m_getTime()//return the time of the current update
 {
 	//to be completed
+	if (mylist.empty()) throw std::length_error("List is empty!");
 	return temp->_time;
 }
 
 string PackageTracking::m_getStatus()//return the status of the current update
 {
 	//to be completed
+	if (mylist.empty()) throw std::length_error("List is empty!");
 	return temp->_status;
 }
 
@@ -79,22 +100,33 @@ int PackageTracking::m_getNumofUpdate() const // get the total numbers of shippi
 void PackageTracking::m_printPreviousUpdates() //print all previous updates in the shipping chain when the package was shipped, all the way up to (but not including) the current update you are viewing (may not be the most recent update)
 {
 	//to be completed
-	while (temp != mylist.begin())
+	if (mylist.empty()) throw std::length_error("List is empty!");
+	list<ShippingStatus>::iterator it = temp;
+	while (it != mylist.end())
 	{
-		temp--;
-		cout << "Status: " << m_getStatus() << " Location: " << m_getLocation() << "Time: " << m_getTime() << endl;
+		it++;
+		if (it != mylist.end())
+		{
+			
+			cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl << endl;
+		}
+		else if (it == mylist.end())
+			break;
+		
 	}
-
+	
 }
 
 //print all updates from the current update you are viewing to the last update in the tracking chain
 void PackageTracking::m_printFollowingUpdates()
 {
 	//to be completed
-	while (temp != mylist.end())
+	if (mylist.empty()) throw std::length_error("List is empty!");
+	list<ShippingStatus>::iterator it = temp;
+	while (it != mylist.begin())
 	{
-		temp++;
-		cout << "Status: " << m_getStatus() << " Location: " << m_getLocation() << "Time: " << m_getTime() << endl;
+		it--;
+		cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl << endl;
 	}
 
 }
@@ -102,11 +134,12 @@ void PackageTracking::m_printFollowingUpdates()
 void PackageTracking::m_printFullTracking()//print all the updates in the tracking chain.
 {
 	//to be completed
-	list<ShippingStatus>::iterator it = mylist.begin();
-	while (it != mylist.end())
+	if (mylist.empty()) throw std::length_error("List is empty!");
+	temp = mylist.begin();
+	while (temp != mylist.end())
 	{
-		cout << "Status: " << it->_status << "Location: " << it->_location << "Time: " << it->_time << endl;
-		it++;
+		cout << "Status:" << temp->_status << "\nLocation:" << temp->_location << "\nTime:" << temp->_time << endl <<endl;
+		temp++;
 	}
 
 }
@@ -114,16 +147,17 @@ void PackageTracking::m_printFullTracking()//print all the updates in the tracki
 bool PackageTracking::m_setCurrent(const time_t& timeUpdated)//view an update.
 {
 	//to be completed
-	list<ShippingStatus>::iterator it = mylist.begin();
-	while (it != mylist.end())
+	if (mylist.empty()) throw std::length_error("List is empty!");
+	temp = mylist.begin();
+	while (temp != mylist.end())
 	{
-		if (timeUpdated == it->_time)
+		if (timeUpdated == temp->_time)
 		{
-			cout << "Status:" << it->_status << " Location:" << it->_location << " Time:" << it->_time << endl;
+			cout << "\nStatus:" << temp->_status << "\nLocation:" << temp->_location << "\nTime:" << temp->_time << endl << endl;
 			return true;
 		}
 		else
-			it++;
+			temp++;
 	}
 	return false;
 }
@@ -147,7 +181,6 @@ bool PackageTracking::m_readTrackingFile(string fileName)
 				myfile >> time;
 				cout << "Your status is: " << status << endl;
 				cout << "Your location is: " << location << endl;
-
 				cout << "Your time is: " << time << endl << endl;
 				m_addUpdate(status, location, time);
 			}
