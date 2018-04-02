@@ -129,7 +129,6 @@ void PackageTracking::m_printFollowingUpdates()
 		cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl << endl;
 		it--;
 	}
-	cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl;
 }
 
 void PackageTracking::m_printFullTracking()//print all the updates in the tracking chain.
