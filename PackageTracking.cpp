@@ -27,14 +27,13 @@ void PackageTracking::m_addUpdate(const string& status, const string& location, 
 
 bool PackageTracking::m_moveBackward()//move iterator one step earlier in time
 {
-	//to be completed
-	if (mylist.empty())
+	if (mylist.empty())			//Checks if list is empty, if empty returns false
 	{
 		throw std::length_error("List is empty!");
 		return false;
 	}
 
-	else if (temp == mylist.end())
+	else if (temp == mylist.end())		//Checks if iterator is at the earliest shipping status
 	{
 		throw std::invalid_argument("You are at the earliest shipping update!");
 		return false;
@@ -42,7 +41,7 @@ bool PackageTracking::m_moveBackward()//move iterator one step earlier in time
 
 	else
 	{
-		temp++;
+		temp++;				//Moves iterator to earlier shipping status
 		return true;
 	}
 	
@@ -51,14 +50,13 @@ bool PackageTracking::m_moveBackward()//move iterator one step earlier in time
 
 bool PackageTracking::m_moveForward()//move iterator one step forward in time
 {
-	//to be completed
-	if (temp == mylist.begin())
+	if (temp == mylist.begin())			//If at the beginning of list, throws error message and false
 	{
 		throw std::invalid_argument("You are at the most recent shipping update!");
 		return false;
 	}
 
-	else if (mylist.empty())
+	else if (mylist.empty())			//If list is empty, returns error message and false
 	{
 		throw std::length_error("List is empty!");
 		return false;
@@ -66,49 +64,43 @@ bool PackageTracking::m_moveForward()//move iterator one step forward in time
 	else
 	{
 		temp--;
-		return true;
+		return true;				//Iterates backwards once
 	}
 }
 
 string PackageTracking::m_getLocation()//return the location of the current update
 {
-	//to be completed
-	if (mylist.empty()) throw std::length_error("List is empty!");
+	if (mylist.empty()) throw std::length_error("List is empty!");		//Checks if list is empty, if not return location
 	return temp->_location;
 }
 
 time_t PackageTracking::m_getTime()//return the time of the current update
 {
-	//to be completed
-	if (mylist.empty()) throw std::length_error("List is empty!");
+	if (mylist.empty()) throw std::length_error("List is empty!");		//Checks if list is empty, if not returnt time
 	return temp->_time;
 }
 
 string PackageTracking::m_getStatus()//return the status of the current update
 {
-	//to be completed
-	if (mylist.empty()) throw std::length_error("List is empty!");
+	if (mylist.empty()) throw std::length_error("List is empty!");		//Checks if list is empty, if not return status
 	return temp->_status;
 }
 
 int PackageTracking::m_getNumofUpdate() const // get the total numbers of shipping status updates
 {
-	//to be completed
-	return n;
-
+	return n;		//Return private variable n that counts the number of updates
 }
 
 void PackageTracking::m_printPreviousUpdates() //print all previous updates in the shipping chain when the package was shipped, all the way up to (but not including) the current update you are viewing (may not be the most recent update)
 {
-	//to be completed
-	if (mylist.empty()) throw std::length_error("List is empty!");
-	list<ShippingStatus>::iterator it = temp;
-	while (it != mylist.end())
+	if (mylist.empty()) throw std::length_error("List is empty!");			//Checks if list is empty, if empty throws error message
+	list<ShippingStatus>::iterator it = temp;					//Creates local iterator and initializes to location of temp
+	while (it != mylist.end())							
 	{
 		it++;
 		if (it != mylist.end())
 		{
-			
+			//Outputs values at each shipping status object until the beginning of the list
 			cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl << endl;
 		}
 		else if (it == mylist.end())
@@ -121,24 +113,25 @@ void PackageTracking::m_printPreviousUpdates() //print all previous updates in t
 //print all updates from the current update you are viewing to the last update in the tracking chain
 void PackageTracking::m_printFollowingUpdates()
 {
-	//to be completed
-	if (mylist.empty()) throw std::length_error("List is empty!");
-	list<ShippingStatus>::iterator it = temp;
+	if (mylist.empty()) throw std::length_error("List is empty!");		//Checks if list is empty, if empty throws error message
+	list<ShippingStatus>::iterator it = temp;				//Creates local iterator and initializes to location of temp
 	while (it != mylist.begin())
 	{
+		//Outputs values at each shipping status object until it reaches the end of the list
 		cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl << endl;
 		it--;
 	}
+		//Outputs the last shipping status object
 	cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl;
 }
 
 void PackageTracking::m_printFullTracking()//print all the updates in the tracking chain.
 {
-	//to be completed
 	if (mylist.empty()) throw std::length_error("List is empty!");
 	list<ShippingStatus>::iterator it = mylist.begin();
 	while (it != mylist.end())
 	{
+		//Outputs entire shipping status history for a tracking number
 		cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl <<endl;
 		it++;
 	}
@@ -147,10 +140,9 @@ void PackageTracking::m_printFullTracking()//print all the updates in the tracki
 
 bool PackageTracking::m_setCurrent(const time_t& timeUpdated)//view an update.
 {
-	//to be completed
 	if (mylist.empty()) throw std::length_error("List is empty!");
 	temp = mylist.begin();
-	while (temp != mylist.end())
+	while (temp != mylist.end())			//Iterates to find specific shipping status by time
 	{
 		if (timeUpdated == temp->_time)
 		{
@@ -163,7 +155,7 @@ bool PackageTracking::m_setCurrent(const time_t& timeUpdated)//view an update.
 }
 
 
-bool PackageTracking::m_readTrackingFile(string fileName) 
+bool PackageTracking::m_readTrackingFile(string fileName) //Reads from a text file with provided tracking number to get status, location, and time
 {
 	string line;
 	ifstream myfile(fileName);
