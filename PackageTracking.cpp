@@ -12,7 +12,8 @@
 
 PackageTracking::PackageTracking(const string& strnum) 
 {
-	
+	string filename = strnum + ".txt";
+	m_readTrackingFile(filename);
 }
 
 // add a new update
