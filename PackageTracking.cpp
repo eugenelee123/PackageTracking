@@ -136,11 +136,11 @@ void PackageTracking::m_printFullTracking()//print all the updates in the tracki
 {
 	//to be completed
 	if (mylist.empty()) throw std::length_error("List is empty!");
-	temp = mylist.begin();
-	while (temp != mylist.end())
+	list<ShippingStatus>::iterator it = mylist.begin();
+	while (it != mylist.end())
 	{
-		cout << "Status:" << temp->_status << "\nLocation:" << temp->_location << "\nTime:" << temp->_time << endl <<endl;
-		temp++;
+		cout << "Status:" << it->_status << "\nLocation:" << it->_location << "\nTime:" << it->_time << endl <<endl;
+		it++;
 	}
 
 }
