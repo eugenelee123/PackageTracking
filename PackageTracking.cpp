@@ -123,7 +123,7 @@ void PackageTracking::m_printFollowingUpdates()
 {
 	//to be completed
 	if (mylist.empty()) throw std::length_error("List is empty!");
-	list<ShippingStatus>::iterator it = temp+1;
+	list<ShippingStatus>::iterator it = temp;
 	while (it != mylist.begin())
 	{
 		it--;
