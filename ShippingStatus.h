@@ -16,13 +16,13 @@ using namespace std;
 
 class ShippingStatus {
 public:
-    friend class PackageTracking;
-    ShippingStatus();
-    ShippingStatus(const string& status, const string& location, const time_t& timeUpdated );
+    friend class PackageTracking; //Added friend class to use private variables
+    ShippingStatus();             //Default constructor
+    ShippingStatus(const string& status, const string& location, const time_t& timeUpdated ); //Constructor with parameters
 
-    string m_getStatus();
-    string m_getLocation();
-    time_t m_getTime();
+    string m_getStatus();       //Return status of package
+    string m_getLocation();     //Return location of package
+    time_t m_getTime();         //Return time of package
     
 private: 
     string _location;
