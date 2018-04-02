@@ -12,7 +12,8 @@
 
 PackageTracking::PackageTracking(const string& strnum) 
 {
-	m_readTrackingFile(strnum);
+	/*string filename = strnum + ".txt";
+	m_readTrackingFile(filename);*/
 }
 
 // add a new update
@@ -153,7 +154,6 @@ bool PackageTracking::m_setCurrent(const time_t& timeUpdated)//view an update.
 	{
 		if (timeUpdated == temp->_time)
 		{
-			cout << "\nStatus:" << temp->_status << "\nLocation:" << temp->_location << "\nTime:" << temp->_time << endl << endl;
 			return true;
 		}
 		else
@@ -179,9 +179,6 @@ bool PackageTracking::m_readTrackingFile(string fileName)
 				getline(myfile, status, ';');
 				getline(myfile, location, ';');
 				myfile >> time;
-				cout << "Your status is: " << status << endl;
-				cout << "Your location is: " << location << endl;
-				cout << "Your time is: " << time << endl << endl;
 				m_addUpdate(status, location, time);
 			}
 
@@ -202,5 +199,9 @@ bool PackageTracking::m_readTrackingFile(string fileName)
 	}
 
 	else
+	{
+		throw invalid_argument("Could not open file " + fileName);
 		return false;
+	}
 }
+
